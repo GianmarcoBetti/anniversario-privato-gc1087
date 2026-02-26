@@ -4,22 +4,28 @@
 <meta charset="UTF-8">
 <title>10 Marzo 2018 ❤️</title>
 <meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* BODY */
 body {
   margin:0;
   padding:0;
-  height:100vh;
-  overflow:hidden;
+  min-height:100vh;
+  height:100%;
   font-family: 'Georgia', serif;
-  background: url('sfondo.jpeg') no-repeat center center/cover;
+  background-image: url('sfondo.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   display:flex;
   justify-content:center;
   align-items:center;
   color:white;
 }
 
-/* Overlay cinematografico */
+/* Overlay */
 body::before {
   content:"";
   position:absolute;
@@ -29,7 +35,7 @@ body::before {
   backdrop-filter: blur(6px);
 }
 
-/* Card centrale */
+/* Container */
 .container {
   position:relative;
   z-index:2;
@@ -40,20 +46,9 @@ body::before {
   animation: fadeIn 2s ease-in-out;
 }
 
-h1 {
-  font-size:3em;
-  margin-bottom:20px;
-}
-
-#countdown {
-  font-size:2em;
-  margin-bottom:15px;
-}
-
-#together {
-  font-size:1.2em;
-  opacity:0.9;
-}
+h1 { font-size:3em; margin-bottom:20px; }
+#countdown { font-size:2em; margin-bottom:15px; }
+#together { font-size:1.2em; opacity:0.9; }
 
 button {
   margin-top:25px;
@@ -66,68 +61,31 @@ button {
   cursor:pointer;
   transition:0.3s;
 }
-
-button:hover {
-  background:#ff1e4d;
-  transform:scale(1.05);
-}
+button:hover { background:#ff1e4d; transform:scale(1.05); }
 
 /* Animazioni */
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(20px);}
-  to {opacity:1; transform:translateY(0);}
-}
+@keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
 
 /* Petali */
-.petal {
-  position:absolute;
-  top:-10px;
-  color:#ffccd5;
-  font-size:20px;
-  animation: fall linear infinite;
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(110vh) rotate(360deg);
-  }
-}
+.petal { position:absolute; top:-10px; color:#ffccd5; font-size:20px; animation: fall linear infinite; }
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
 /* Stelle */
-.star {
-  position:absolute;
-  width:3px;
-  height:3px;
-  background:white;
-  border-radius:50%;
-  animation: twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle {
-  from {opacity:0.2;}
-  to {opacity:1;}
-}
+.star { position:absolute; width:3px; height:3px; background:white; border-radius:50%; animation: twinkle 2s infinite alternate; }
+@keyframes twinkle { from {opacity:0.2;} to {opacity:1;} }
 
 /* Lettera finale */
-#letter {
-  display:none;
-  margin-top:20px;
-  font-size:1.2em;
-  animation: fadeIn 2s ease-in-out;
-}
+#letter { display:none; margin-top:20px; font-size:1.2em; animation: fadeIn 2s ease-in-out; }
 
 /* Schermata password */
-#passwordScreen {
-  position:absolute;
-  z-index:3;
-  text-align:center;
-}
+#passwordScreen { position:absolute; z-index:3; text-align:center; }
+input { padding:10px; border-radius:20px; border:none; margin-top:10px; }
 
-input {
-  padding:10px;
-  border-radius:20px;
-  border:none;
-  margin-top:10px;
+/* Mobile */
+@media (max-width: 600px) {
+  .container { padding:30px; width:90%; }
+  h1 { font-size:2em; }
+  #countdown { font-size:1.5em; }
 }
 </style>
 </head>
@@ -149,7 +107,12 @@ input {
 <div id="passwordScreen">
   <h2>Inserisci la nostra frase ❤️</h2>
   <input type="password" id="pw" placeholder="Scrivila qui">
-  <br>
+  <br><br>
+  <label style="font-size:14px;">
+    <input type="checkbox" onclick="togglePassword()">
+    Mostra password
+  </label>
+  <br><br>
   <button onclick="checkPassword()">Entra</button>
 </div>
 
@@ -157,7 +120,6 @@ input {
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-
 /* PASSWORD */
 function checkPassword(){
   if(document.getElementById("pw").value === "Gianmarco e Camilla"){
@@ -168,9 +130,13 @@ function checkPassword(){
   }
 }
 
+function togglePassword() {
+  const input = document.getElementById("pw");
+  input.type = input.type === "password" ? "text" : "password";
+}
+
 /* DATE */
 const startDate = new Date(2018,2,10);
-
 function getNextMarch10(){
   const today = new Date();
   let year = today.getFullYear();
@@ -178,7 +144,6 @@ function getNextMarch10(){
   if(today > target) target = new Date(year+1,2,10);
   return target;
 }
-
 function updateCountdown(){
   const now = new Date();
   const target = getNextMarch10();
@@ -200,7 +165,6 @@ function updateCountdown(){
     document.getElementById("letter").style.display="block";
   }
 }
-
 setInterval(updateCountdown,1000);
 updateCountdown();
 
@@ -229,19 +193,10 @@ for(let i=0;i<50;i++){
 /* Musica */
 let player;
 function onYouTubeIframeAPIReady(){
-  player=new YT.Player('player',{
-    height:'0',
-    width:'0',
-    videoId:'2Vv-BfVoq4g'
-  });
+  player=new YT.Player('player',{height:'0',width:'0',videoId:'2Vv-BfVoq4g'});
 }
-
-function startMusic(){
-  player.playVideo();
-}
-
+function startMusic(){ player.playVideo(); }
 </script>
 
 </body>
-
 </html>
