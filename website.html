@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>10 Marzo 2018 ❤️</title>
+<meta name="robots" content="noindex, nofollow">
+
+<style>
+body {
+  margin:0;
+  padding:0;
+  height:100vh;
+  overflow:hidden;
+  font-family: 'Georgia', serif;
+  background: url('sfondo.jpeg') no-repeat center center/cover;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+}
+
+/* Overlay cinematografico */
+body::before {
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+}
+
+/* Card centrale */
+.container {
+  position:relative;
+  z-index:2;
+  text-align:center;
+  padding:60px;
+  border-radius:30px;
+  background:rgba(0,0,0,0.5);
+  animation: fadeIn 2s ease-in-out;
+}
+
+h1 {
+  font-size:3em;
+  margin-bottom:20px;
+}
+
+#countdown {
+  font-size:2em;
+  margin-bottom:15px;
+}
+
+#together {
+  font-size:1.2em;
+  opacity:0.9;
+}
+
+button {
+  margin-top:25px;
+  padding:12px 25px;
+  border:none;
+  border-radius:25px;
+  background:#ff4d6d;
+  color:white;
+  font-size:1em;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover {
+  background:#ff1e4d;
+  transform:scale(1.05);
+}
+
+/* Animazioni */
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+/* Petali */
+.petal {
+  position:absolute;
+  top:-10px;
+  color:#ffccd5;
+  font-size:20px;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
+
+/* Stelle */
+.star {
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:white;
+  border-radius:50%;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  from {opacity:0.2;}
+  to {opacity:1;}
+}
+
+/* Lettera finale */
+#letter {
+  display:none;
+  margin-top:20px;
+  font-size:1.2em;
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Schermata password */
+#passwordScreen {
+  position:absolute;
+  z-index:3;
+  text-align:center;
+}
+
+input {
+  padding:10px;
+  border-radius:20px;
+  border:none;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="mainContent" style="display:none;">
+  <h1>Il nostro 10 Marzo ❤️</h1>
+  <div id="countdown"></div>
+  <div id="together"></div>
+  <button onclick="startMusic()">Premi qui ❤️</button>
+  <div id="letter">
+    Ti sceglierei altre mille volte.<br>
+    Ti risceglierei in ogni vita.<br>
+    Dal 10 Marzo 2018, la mia persona sei tu. ❤️
+  </div>
+</div>
+
+<div id="passwordScreen">
+  <h2>Inserisci la nostra frase ❤️</h2>
+  <input type="password" id="pw" placeholder="Scrivila qui">
+  <br>
+  <button onclick="checkPassword()">Entra</button>
+</div>
+
+<div id="player" style="display:none;"></div>
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+
+/* PASSWORD */
+function checkPassword(){
+  if(document.getElementById("pw").value === "Gianmarco e Camilla"){
+    document.getElementById("passwordScreen").style.display="none";
+    document.getElementById("mainContent").style.display="block";
+  } else {
+    alert("È il nostro nome insieme ❤️");
+  }
+}
+
+/* DATE */
+const startDate = new Date(2018,2,10);
+
+function getNextMarch10(){
+  const today = new Date();
+  let year = today.getFullYear();
+  let target = new Date(year,2,10);
+  if(today > target) target = new Date(year+1,2,10);
+  return target;
+}
+
+function updateCountdown(){
+  const now = new Date();
+  const target = getNextMarch10();
+  const diff = target - now;
+
+  const days = Math.floor(diff/(1000*60*60*24));
+  const hours = Math.floor((diff/(1000*60*60))%24);
+  const minutes = Math.floor((diff/1000/60)%60);
+  const seconds = Math.floor((diff/1000)%60);
+
+  document.getElementById("countdown").innerHTML =
+    days+" giorni "+hours+" ore "+minutes+" minuti "+seconds+" secondi";
+
+  const togetherDays = Math.floor((now - startDate)/(1000*60*60*24));
+  document.getElementById("together").innerHTML =
+    "Insieme da "+togetherDays+" giorni ❤️";
+
+  if(diff <= 0){
+    document.getElementById("letter").style.display="block";
+  }
+}
+
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+/* Petali */
+function createPetal(){
+  const petal = document.createElement("div");
+  petal.className="petal";
+  petal.innerHTML="❤";
+  petal.style.left=Math.random()*100+"vw";
+  petal.style.animationDuration=(Math.random()*5+5)+"s";
+  document.body.appendChild(petal);
+  setTimeout(()=>petal.remove(),10000);
+}
+setInterval(createPetal,500);
+
+/* Stelle */
+for(let i=0;i<50;i++){
+  const star=document.createElement("div");
+  star.className="star";
+  star.style.top=Math.random()*100+"vh";
+  star.style.left=Math.random()*100+"vw";
+  star.style.animationDuration=(Math.random()*2+1)+"s";
+  document.body.appendChild(star);
+}
+
+/* Musica */
+let player;
+function onYouTubeIframeAPIReady(){
+  player=new YT.Player('player',{
+    height:'0',
+    width:'0',
+    videoId:'2Vv-BfVoq4g'
+  });
+}
+
+function startMusic(){
+  player.playVideo();
+}
+
+</script>
+
+</body>
+</html>
